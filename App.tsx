@@ -6,25 +6,17 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import * as jpeg from "jpeg-js";
 import * as mobilenet from "@tensorflow-models/mobilenet";
-import { defaultConfig } from '@tamagui/config/v4'
 import {CameraView, CameraType, useCameraPermissions, Camera, CameraMode } from "expo-camera";
-import { Spinner } from "./components/ui/spinner";
 
 
 export default function App() {
   const [isTfReady, setIsTfReady] = useState(false);
   const [result, setResult] = useState("");
   const [pickedImage, setPickedImage] = useState("");
-  // const [facing, setFacing] = useState<CameraType>("back");
-  // const [permission, requestPermission] = useCameraPermissions();
-  // const cameraRef = useRef(null);
-
   const [permission, requestPermission] = useCameraPermissions();
   const ref = useRef<CameraView>(null);
-  const [uri, setUri] = useState<string | null>(null);
   const [mode, setMode] = useState<CameraMode>("picture");
   const [facing, setFacing] = useState<CameraType>("back");
-  const [recording, setRecording] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
 
   useEffect(() => {
@@ -225,7 +217,7 @@ export default function App() {
       {isTfReady && <Button onPress={pickImage} title="Upload Image" />}
       <Button title="Open Camera" onPress={() => setShowCamera(true)} />
 
-      {!isTfReady && <Spinner size="large" />}
+      {!isTfReady && <Text>LOADING...</Text>}
 
       {result !== '' || !pickedImage ? (
         <Text>
@@ -236,7 +228,7 @@ export default function App() {
             : 'Cataract'}
         </Text>
       ) : (
-        <Spinner size="small" />
+        <Text>LOADING...</Text>
       )}
     </View>
   );
